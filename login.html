@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="./public/login.css">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+</head>
+<html>
+<body>
+
+<div class="login-page">
+  <div class="form">
+    <form class="login-form" action="auth" method="post">
+	<img src="./public/logo.png">
+	<p>Qlik Sense sample LDAP login page</p>
+      <input type="text" name="uid" placeholder="username"/>
+      <input type="password" name="passwd" placeholder="password"/>
+      <button type="submit">login</button>
+      <!--<p class="message">Need setup help? <a href="https://github.com/johsund/Qliklogin">QlikLogin - Github</a></p>-->
+	  <p id="errorMessage" style="margin-top:20px;"></p>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
+<script>
+
+var para = document.getElementById("errorMessage");
+console.log(document.location);
+if (document.location.href.indexOf('reason=credentials')>0) {
+    console.log("credentials failed");
+    var node = document.createTextNode("Login failed: Invalid credentials");
+} else if (document.location.href.indexOf('reason=unknown')>0) {
+    var node = document.createTextNode("Login failed: Unknown error");
+} else {
+    var node = document.createTextNode("Welcome - Please log in above");    
+}
+para.appendChild(node);
+
+</script>	
+
+</body>
+</html>
