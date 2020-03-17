@@ -11,7 +11,12 @@ To run the app, execute <a href="run.bat">run.bat</a>. This runs the node.exe fr
 ## Setup a Virtual Proxy on Qlik Sense QMC
 
 Login as Root Admin to the QMC of Qlik Sense. 
- * Go to 
+ * Go to /qmc/virtualproxies
+ * Create new Virtual Proxy
+ * Make below settings. The "Authentication module redirect URI" should be the url (including port) of this app.js
+![screenshot](/public/screenshot.png "screenshot") 
+ * Save settings, then go to "Associated items" / "Proxies" and (+ Link) the Central Proxy, otherwise this Virtual Proxy will not work
+ 
 
 ## Use Qlik Sense Service Dispatcher to run app.js
 Edit "C:\Program Files\Qlik\Sense\ServiceDispatcher\services.conf" and add this lines at the bottom (replace the Script entry with the file location of this app.js):
