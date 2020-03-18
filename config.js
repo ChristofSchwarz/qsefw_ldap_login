@@ -17,7 +17,8 @@ config.virtualProxy = 'corpuls'; // if no virtual proxy is used, leave blank ''
 if (config.virtualProxy.length > 0 && config.virtualProxy.substr(-1)!='/') config.virtualProxy += '/';  // end vp with "/" if not blank
 config.staticUserDir = 'CORPULSWEB.COM' // User Directory string used in Qlik
 config.postLoginRedirect = `https://$(hostname)/${config.virtualProxy}hub`;  // address in Qlik Sense to go after login 
-  // you can use $(hostname) to dynamically put the same host as given in the browser instead of a hardcoded Qlik server name
+//config.postLoginRedirect = `https://$(hostname)/${config.virtualProxy}sense/app/20f18962-a039-44eb-88cd-c8836b1b65aa/sheet/438a7836-35f2-43bb-941a-a015478a7203`;
+  // -> you can use $(hostname) to dynamically put the same host as given in the browser instead of a hardcoded Qlik server name
 config.qpsOprions = {
     hostname: 'localhost', // <- hostname how this app.js can contact QPS API of Qlik Sense,
     port: 4243,  // QPS API port
