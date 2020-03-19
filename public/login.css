@@ -1,100 +1,181 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+html {
+  height: 100%;
+  overflow-y: hidden;
+}
 
-.login-page {
-  width: 360px;
-  padding: 8% 0 0;
-  margin: auto;
+body {
+  min-height: 100%;
+  font-family: sans-serif;
+  margin: 0;
+  background-color: #FFFFFF;
+  color: #595959;
 }
-.form {
+
+div.qlik-logo {
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #E6E6E6;
+  margin-bottom: 6px;
+}
+
+div.qlik-logo img {
+  width: 66%;
+}
+
+.sense-login-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 280px;
+  font-size: 13px;
+  background: #ffffff;
   position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  z-index: 2;
+  padding-top: 20px;
 }
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
+
+form#login-form {
+  padding-top: 13px;
+  display: block;
+}
+
+.lui-input {
+  vertical-align: middle;
   width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
+  height: 28px;
+  display: block;
+  outline: none;
+  font-size: 13px;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   box-sizing: border-box;
-  font-size: 14px;
+  box-shadow: none;
+  transition: border-color 200ms ease-out;
+  color: #595959;
+  background-color: #FFFFFF;
+  border-color: #B3B3B3;
 }
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #009845;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
+
+.lui-input:hover {
+  border-color: #666666;
 }
-.form button:hover,.form button:active,.form button:focus {
-  background: #4CAF50;
+
+.lui-input:focus {
+  border: 1px solid #52a2cc;
+  transition: none;
+  box-shadow: 0 0 1px 1px rgba(82, 162, 204, 0.7);
 }
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
+
+input {
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
-.form .message a {
-  color: #009845;
+
+.lui-button {
+  vertical-align: middle;
+  height: 28px;
+  min-width: 44px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: bold;
   text-decoration: none;
+  line-height: 24px;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  border-radius: 3px;
+  color: #595959;
+  background-color: transparent;
+  border-color: #B3B3B3;
+  transition: border-color 200ms ease-out;
 }
-.form .register-form {
+
+.lui-button:hover {
+  border-color: #666666;
+}
+
+.lui-button:active {
+  color: #FFFFFF;
+  background-color: rgba(0, 0, 0, 0.65);
+  border-color: transparent;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.lui-button:focus {
+  border: 1px solid #52a2cc;
+  transition: none;
+  box-shadow: 0 0 1px 1px rgba(82, 162, 204, 0.7);
+}
+
+.lui-button:focus:active {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+#loginbtn {
+  float: right;
+  margin: 10px 0 0 0;
+}
+
+.error-message {
+  display: none;
+  color: rgba(230, 78, 78, 1.0);
+  background-color: rgba(230, 78, 78, 0.1);
+  cursor: default;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid rgba(230, 78, 78, 0.3);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 3px;
+  clear: both;
+  -webkit-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+  .error-message:focus {
+      box-shadow: 0 0 1px 1px rgba(230, 78, 78, 0.7);
+  }
+
+.js-disabled {
+  display: block !important;
+  max-width: 280px;
+}
+
+.jsDisabledMsg {
+  margin-bottom: 0;
+}
+
+.hidden {
   display: none;
 }
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
+
+@media screen and (min-width: 768px) {
+  input[type='submit'] {
+      min-width: 44px;
+  }
 }
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
+
+@media screen and (min-width: 768px) and (min-height: 481px) {
+  .sense-login-container {
+      padding-top: 120px;
+  }
 }
-.container .info {
-  margin: 50px auto;
-  text-align: center;
-}
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
-}
-.container .info span {
-  color: #4d4d4d;
-  font-size: 12px;
-}
-.container .info span a {
-  color: #000000;
-  text-decoration: none;
-}
-.container .info span .fa {
-  color: #EF3B3A;
-}
-body {
-  background: #b3b3b3; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #b3b3b3, #b2b2b2);
-  background: -moz-linear-gradient(right, #b3b3b3, #b2b2b2);
-  background: -o-linear-gradient(right, #b3b3b3, #b2b2b2);
-  background: linear-gradient(to left, #b3b3b3, #b2b2b2);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+
+@media screen and (max-width: 640px) and (orientation: portrait) {
+  input[type='submit'] {
+      min-width: 100%;
+      margin-top: 40px;
+  }
 }
