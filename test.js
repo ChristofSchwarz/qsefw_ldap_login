@@ -4,7 +4,7 @@ var ldap = require('ldapjs');
 var client = ldap.createClient({
   url: 'ldap://localhost:389'
 });
-var user = 'uid=csw,ou=users,dc=corpulsweb,dc=com'; // <- OK!
+var user = 'uid=csw,ou=users,dc=corpulsweb,dc=com'; 
 var pass = 'Password123!';
 console.log(user);
 client.bind(user, pass, function(err) {

@@ -1,17 +1,31 @@
 /*
 ============================================================================================
-Sample authentication app for Qlik Sense based LDAP.
+Sample authentication app for Qlik Sense based on LDAP.
 ============================================================================================
 */
-var fs = require('fs');
+//var fs = require('fs'); 
 var https = require('https');
 //var http = require('http');
 var express=require('express');
+
 // Use LDAP
 var ldap = require('ldapjs');
 var bodyParser = require('body-parser');
 var config = require('./config');
 //console.log(config);
+
+function textBetween(source,start,end) {
+	var part = source.split(start)[1]; 
+	if (part) part = part.split(end)[0];
+	return part;
+}
+function removeQueryString(url, queryString) {
+	var errorTxt = textBetween(url, queryString+'=', '&');
+	url = url.replace(queryString + '=' + errorTxt, '').replace('?&', '?').replace('&&','&');
+	if (url.substr(-1) == '?') url=url.substr(0,url.length-1);
+	if (url.substr(-1) == '&') url=url.substr(0,url.length-1); 
+	return url;
+}
 
 var app = express();
 //set the port for the listener here
@@ -30,15 +44,19 @@ app.get('/', function (req, res) {
 
 // the login.html submits a post request from login form
 app.post("/auth", function(req, res) {
-	var userLoginId = req.body.uid;  // get the post-form values uid and passwd
-	var passwd = req.body.passwd;
+	var userLoginId = req.body.username;  // get the post-form values username and pwd
+	var passwd = req.body.pwd;
 	var browserHostName = req.headers.host.split(':')[0]; // hostname without port
-	//console.log('browserHostName: ' +browserHostName);
+	var targetId = textBetween(req.headers.referer, 'targetId=', '&');
+	// remove the 'error=xyz' part from the url
+	var onErrorReturnTo = removeQueryString(req.headers.referer, 'error');
+	onErrorReturnTo += (onErrorReturnTo.indexOf('?') > -1) ? '&' : '?';
+	//console.log(req.headers);
+	
 	var url = config.ldap.url; //req.session.LDAP;
 	var userPrincipalName = config.ldap.queryPattern.replace('$(uid)', userLoginId);
 	
-
-	// Bind as the user
+    // Bind as the user
 	console.log({ url: url, reconnect: true });
 	var adClient = ldap.createClient({ url: url, reconnect: true });
 	console.log(`Logging in as ${userPrincipalName}`);
@@ -47,9 +65,9 @@ app.post("/auth", function(req, res) {
 			console.log('Error occured in ldap call');
 			console.log(err);
 			if (err.name === "InvalidCredentialsError")
-				res.redirect("/?login=failed&reason=credentials");
+				res.redirect(onErrorReturnTo + 'error=Invalid%20credentials');
 			else
-				res.redirect("/?login=failed&reason=unknown");
+				res.redirect(onErrorReturnTo + 'error=Unknown%20error');
 		} else {
 			console.log('Authentication successful');
 
@@ -70,20 +88,31 @@ app.post("/auth", function(req, res) {
 				
 				ticketRes.on("end", function (chunk) {
 					var body = Buffer.concat(chunks);
-					console.log('Ticket received.');
 					var response=body.toString();
+					console.log('Ticket received.');
 					response = JSON.parse(response);
-					var redirect = config.postLoginRedirect.replace('$(hostname)', browserHostName);
-					console.log(redirect + '?qlikticket=' + response.Ticket);
-					res.redirect(redirect + '?qlikticket=' + response.Ticket);
+					var targetUri;
+					if (response.TargetUri) {
+						targetUri = response.TargetUri;
+					} else {
+						targetUri = config.postLoginRedirect.replace('$(hostname)', browserHostName);
+					}
+					targetUri += (targetUri.indexOf('?') > -1)? '&' : '?';
+					targetUri += 'qlikticket=' + response.Ticket;
+					console.log(targetUri);
+					res.redirect(targetUri);
 				});
 				
 				ticketRes.on("error", function (error) {
 					console.error(error);
 				});
 			});
-			var postData = JSON.stringify({UserDirectory: config.staticUserDir, UserId: userLoginId});
-			ticketReq.write(postData);  // contact /ticket endpoint with POST call
+			var postData = {
+				UserDirectory: config.staticUserDir, 
+				UserId: userLoginId
+			};
+			if (targetId) postData.targetId = targetId;
+			ticketReq.write(JSON.stringify(postData));  // contact /ticket endpoint with POST call
 			ticketReq.end();
 		}  // End of the if err == null part
 		adClient.unbind(err=>{});

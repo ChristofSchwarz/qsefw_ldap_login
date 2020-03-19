@@ -1,24 +1,20 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="./public/login.css">
-	
-	<!-- Latest compiled and minified JavaScript -->
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Qlik Sense login page</title>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="cleartype" content="on">
+	<link rel="stylesheet" href="./public/login.css"> 
 </head>
 <html>
+<!--
 <body>
-
 <div class="login-page">
   <div class="form">
     <form class="login-form" action="auth" method="post">
@@ -27,16 +23,43 @@
       <input type="text" name="uid" placeholder="username"/>
       <input type="password" name="passwd" placeholder="password"/>
       <button type="submit">login</button>
-      <!--<p class="message">Need setup help? <a href="https://github.com/johsund/Qliklogin">QlikLogin - Github</a></p>-->
-	  <p id="errorMessage" style="margin-top:20px;"></p>
+      <p id="errorMessage" style="margin-top:20px;"></p>
     </form>
   </div>
 </div>
-
 </body>
+-->
+
+<body onload="init();" onresize="scrollToCorrectPos()">
+    <div class="sense-login-container">
+        <div class="qlik-logo">
+            <img alt="Qlik Sense" src="./public/logo.png" />
+        </div>
+        <noscript class="error-message js-disabled">
+            <div>
+                <header>JavaScript is disabled.</header>
+                <main><p class="jsDisabledMsg">Some functionality will not work as expected if JavaScript is disabled.</p></main>
+            </div>
+        </noscript>
+        <form autocomplete="off" method="POST" action="auth" class="login-form" id="login-form" spellcheck="false" autocorrect="off" autocapitalize="none">
+            <div id="error-message" class="error-message" tabindex="0"></div>
+
+            <label for="username-input">User name</label>
+            <input type="text" id="username-input" name="username" class="lui-input qlik-username"  aria-describedby="username-hint">
+            <span id="username-hint" class="hidden">domain\user</span>
+
+            <label for="password-input">Password</label>
+            <input type="password" id="password-input" class="lui-input qlik-password" name="pwd">
+
+            <input type="submit" id="loginbtn" class="lui-button qlik-submit" value="Log in" />
+        </form>
+    </div>
+</body>
+
+
 </html>
 <script>
-
+/*
 var para = document.getElementById("errorMessage");
 console.log(document.location);
 if (document.location.href.indexOf('reason=credentials')>0) {
@@ -48,6 +71,51 @@ if (document.location.href.indexOf('reason=credentials')>0) {
     var node = document.createTextNode("Welcome - Please log in above");    
 }
 para.appendChild(node);
+*/
+
+        var m;
+
+        function checkErrorMessage() {
+            var errorTxt;
+            if (document.location.href.indexOf('error=')>0) {
+                errorTxt = document.location.href.split('error=')[1].split('&')[0];
+            }
+
+            var errorMessage = document.getElementById("error-message"),
+                usernameInput = document.getElementById("username-input"),
+                passwordInput = document.getElementById("password-input");
+            if (errorTxt) errorMessage.innerText = decodeURI(errorTxt);
+            if (errorMessage && errorMessage.textContent) {
+                errorMessage.style.display = (errorMessage.textContent) ? "block" : "none";
+                errorMessage.focus();
+                if (usernameInput) {
+                    usernameInput.setAttribute("aria-invalid", "true");
+                }
+                if (passwordInput) {
+                    passwordInput.setAttribute("aria-invalid", "true");
+                }
+            }
+            else if (usernameInput) {
+                usernameInput.focus();
+            }
+        }
+
+        function init() {
+            checkErrorMessage();
+        }
+
+        function scrollToCorrectPos() {
+            if (m.matches && window.scrollTo) {
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function setupSmallDeviceMql() {
+            return window.matchMedia("screen and (max-width: 640px) and (orientation: landscape)");
+        }
+
+        m = setupSmallDeviceMql();
+        scrollToCorrectPos();
 
 </script>	
 
