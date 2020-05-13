@@ -1,6 +1,9 @@
 # LDAP Login Solution
 NodeJS LDAP Login Solution for Qlik Sense Enterprise for Windows. This app is meant to run on the same machine as Qlik Sense Enterprise for Windows (on the proxy node). Since Qlik Sense uses Node.exe (NodeJS) already, you do NOT need to install NodeJS. You can install it, however, in this case you also install NPM, the package manager, and you can update the dependencies.
 
+| Tables |
+| ------ |
+
 To run this:
  * Clone or download/extract this repo into a folder of your choice
  * Edit <a href="config.js">config.js</a> and make the necessary adjustments. Remember that the virtualproxy which you configure here needs to be setup in the following step (below)
