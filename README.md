@@ -1,8 +1,9 @@
 # LDAP Login Solution
 NodeJS LDAP Login Solution for Qlik Sense Enterprise for Windows. This app is meant to run on the same machine as Qlik Sense Enterprise for Windows (on the proxy node). Since Qlik Sense uses Node.exe (NodeJS) already, you do NOT need to install NodeJS. You can install it, however, in this case you also install NPM, the package manager, and you can update the dependencies.
 
-| Note: without NGINX this solution will need you to open another port e.g. 4443 of your Qlik Sense Server. If you want to avoid this, become friends with NGINX and my repository https://github.com/ChristofSchwarz/qsefw_nginx |
 | ------ |
+| Note: without NGINX this solution will need you to open another port e.g. 4443 of your Qlik Sense Server. If you want to avoid this, become friends with NGINX and my repository https://github.com/ChristofSchwarz/qsefw_nginx |
+
 
 To run this:
  * Clone or download/extract this repo into a folder of your choice
